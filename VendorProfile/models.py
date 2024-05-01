@@ -3,7 +3,6 @@ import random
 import datetime
 from django.utils import timezone
 from django.db import models
-from VendorManagementSystem.services import ServiceHandler
 
 def generate_vendor_code():
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
@@ -29,18 +28,28 @@ class VendorProfile(models.Model):
     orders_cancelled = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
+        from Performance.models import Performance
         
         def update_order_status(self, *args, **kwargs):
             ...
 
+        performance, _ = Performance.objects.get_or_create(
+            vendor_code=self.vendor_code,
+            on_time_delivery_rate = self.on_time_delivery_rate,
+            quality_rating_avg = self.quality_rating_avg,
+            avg_response_time = self.avg_response_time,
+            fulfilment_rate = self.fulfillment_rate,
+        )
+        performance.save()
+        
         for po_number, status in self.new_orders.items():
             from Orders.models import Orders
             try:
                 order = Orders.objects.get(po_number=po_number)
             except:
                 ...
+
             if (status == 'Completed' or status == 'Declined') and order.order_status == 'Pending':
-                # self.orders_received -= 1
 
                 if status == 'Completed':
                     order.order_status = 'Completed'
@@ -50,7 +59,6 @@ class VendorProfile(models.Model):
                     if order.delivery_date - timezone.now() > datetime.timedelta(0):
                         self.on_time_delivery += 1
                     self.on_time_delivery_rate = self.on_time_delivery / self.orders_fulfilled
-
                     if order.quality_rating > 0:
                         self.total_rating += order.quality_rating
                         self.ratings_given += 1

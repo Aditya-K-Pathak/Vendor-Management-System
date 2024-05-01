@@ -43,6 +43,9 @@ class Orders(models.Model):
         if self.po_number not in self.vendor_code.new_orders:
             update_received_orders(self, *args, **kwargs)
             self.vendor_code.save()
+        # else:
+        #     if self.quality_rating > 0 and self.order_status == 'Completed':
+        #         self.vendor_code.total_rating += self.quality_rating
 
         super().save(*args, **kwargs)
 
