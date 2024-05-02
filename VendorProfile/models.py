@@ -5,6 +5,12 @@ from django.utils import timezone
 from django.db import models
 
 def generate_vendor_code():
+    """
+    Generate a unique vendor code consisting of 8 random uppercase letters and digits.
+
+    Returns:
+    str: A unique vendor code.
+    """
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
 
 # Create your models here.
@@ -28,10 +34,31 @@ class VendorProfile(models.Model):
     orders_cancelled = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
+        """
+        Update vendor performance metrics and order statuses when the vendor profile is saved.
+
+        Args:
+        *args: Variable length argument list.
+        **kwargs: Arbitrary keyword arguments.
+
+        Returns:
+        None
+        """
         from Performance.models import Performance
         
         def update_order_status(self, *args, **kwargs):
-            ...
+            """
+            Update order status based on the provided status.
+
+            Args:
+            self (VendorProfile): The vendor profile instance.
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+
+            Returns:
+            None
+            """
+        ...
 
         performance, _ = Performance.objects.get_or_create(
             vendor_code=self.vendor_code,
@@ -47,7 +74,7 @@ class VendorProfile(models.Model):
             try:
                 order = Orders.objects.get(po_number=po_number)
             except:
-                ...
+               ...
 
             if (status == 'Completed' or status == 'Declined') and order.order_status == 'Pending':
 
@@ -75,4 +102,10 @@ class VendorProfile(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.vendor_code + ' | ' + self.vendor_name 
+        """
+        Return a string representation of the vendor profile.
+
+        Returns:
+        str: A string representation of the vendor profile.
+        """
+        return self.vendor_code + ' | ' + self.vendor_name
