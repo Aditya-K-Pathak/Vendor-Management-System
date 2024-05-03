@@ -2,7 +2,7 @@ import string
 import random
 import datetime
 from django.utils import timezone
-from django.db import models
+from django.db import models, IntegrityError
 
 def generate_vendor_code():
     """
@@ -59,15 +59,6 @@ class VendorProfile(models.Model):
             None
             """
         ...
-
-        performance, _ = Performance.objects.get_or_create(
-            vendor_code=self.vendor_code,
-            on_time_delivery_rate = self.on_time_delivery_rate,
-            quality_rating_avg = self.quality_rating_avg,
-            avg_response_time = self.avg_response_time,
-            fulfilment_rate = self.fulfillment_rate,
-        )
-        performance.save()
         
         for po_number, status in self.new_orders.items():
             from Orders.models import Orders
@@ -100,6 +91,21 @@ class VendorProfile(models.Model):
                 order.save()
 
         super().save(*args, **kwargs)
+        try:
+            performance, _ = Performance.objects.get_or_create(
+                vendor_code=self,
+                on_time_delivery_rate = self.on_time_delivery_rate,
+                quality_rating_avg = self.quality_rating_avg,
+                avg_response_time = self.avg_response_time,
+                fulfilment_rate = self.fulfillment_rate,
+            )
+        except IntegrityError:
+            performance = Performance.objects.get(vendor_code=self)
+            performance.on_time_delivery_rate = self.on_time_delivery_rate
+            performance.quality_rating_avg = self.quality_rating_avg
+            performance.avg_response_time = self.avg_response_time
+            performance.fulfilment_rate = self.fulfillment_rate
+        performance.save()
 
     def __str__(self):
         """

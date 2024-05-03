@@ -1,8 +1,10 @@
 from .models import Orders
 from rest_framework import generics, response, status
+from rest_framework.permissions import IsAuthenticated
 from .serializer import OrdersSerializer
 
 class OrdersListCreate(generics.ListCreateAPIView):
+    permission_classes = (IsAuthenticated,)
     """
     API view for listing and creating orders.
 
@@ -29,6 +31,7 @@ class OrdersListCreate(generics.ListCreateAPIView):
         return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class OrdersRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated,)
     """
     API view for retrieving, updating, and deleting orders.
 

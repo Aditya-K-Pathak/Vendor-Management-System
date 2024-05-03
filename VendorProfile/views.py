@@ -10,10 +10,12 @@ Endpoints:
 """
 
 from rest_framework import generics, response, status
+from rest_framework.permissions import IsAuthenticated
 from .models import VendorProfile
 from .serializer import VendorProfileSerializer
 
 class VendorProfileListCreate(generics.ListCreateAPIView):
+    permission_classes = (IsAuthenticated,)
     """
     API view for creating and listing vendor profiles.
     """
@@ -38,6 +40,7 @@ class VendorProfileListCreate(generics.ListCreateAPIView):
         return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class VendorProfileRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated,)
     """
     API view for retrieving, updating, and deleting a vendor profile.
     """
@@ -48,10 +51,16 @@ class VendorProfileRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         """
         Update details of a specific vendor profile.
         """
-        return self.update(request, *args, **kwargs)
+        self.update(request, *args, **kwargs)
+        return response.Response({
+            "message": "Vendor Profile Update"
+        }, status=status.HTTP_202_ACCEPTED)
 
     def delete(self, request, *args, **kwargs):
         """
         Delete a specific vendor profile.
         """
-        return self.destroy(request, *args, **kwargs)
+        self.destroy(request, *args, **kwargs)
+        return response.Response({
+            "message": "Vendor Profile Deleted"
+        }, status=status.HTTP_204_NO_CONTENT)
