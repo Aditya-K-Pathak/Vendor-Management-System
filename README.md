@@ -5,7 +5,6 @@
 ## Overview
 The Vendor Management System (VMS) with Performance Metrics is a web application built using Django and Django REST Framework. It provides a platform for managing vendor profiles, tracking purchase orders, and evaluating vendor performance metrics. The system is designed to adhere to RESTful principles, implement comprehensive data validations, and utilize Django ORM for database interactions.
 - The code is hosted on https://aditya28704.pythonanywhere.com/
-- You need to register here before you can make any api calls else you'll get authentication error https://aditya28704.pythonanywhere.com/api/user
 - You can also read the documentation on https://aditya28704.pythonanywhere.com/docs
 
 ## Core Features
