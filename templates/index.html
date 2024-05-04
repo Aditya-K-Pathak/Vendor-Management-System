@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vendor Management System with Performance Metrics</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      background-color: #24292e;
+      color: #fff;
+    }
+
+    #navbar{
+        position: fixed;
+    }
+    li a{
+        color: white;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    h2 {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #e0e0e0;
+    }
+
+    p {
+      margin-bottom: 10px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding-left: 20px;
+    }
+
+    code {
+      background-color: #3d3d3d;
+      padding: 5px;
+      border-radius: 4px;
+      font-family: monospace;
+      color: #f1f1f1;
+    }
+
+    pre {
+      background-color: #3d3d3d;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+      color: #f1f1f1;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .code-block {
+      border: 1px solid #555;
+      padding: 10px;
+      margin-top: 20px;
+      border-radius: 4px;
+    }
+
+    .author {
+      text-align: center;
+      margin-top: 50px;
+      font-style: italic;
+      color: #ccc;
+    }
+
+    a {
+      color: #99ccff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #6699ff;
+    }
+  </style>
+</head>
+
+<body>
+    <div id="navbar">
+        <h1>Navigation</h1>
+        <hr>
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#core-features">Core Features</a></li>
+            <li><a href="#technologies-used">Technologies Used</a></li>
+            <li><a href="#installation">Installation</a></li>
+            <li><a href="#security">Security</a></li>
+            <li><a href="#api-endpoints">API Endpoints</a></li>
+            <ul>
+                <li><a href="#vendor-profile-registeration">Vendor Profile Registeration</a></li>
+                <li><a href="#vendor-profile-management">Vendor Profile Management</a></li>
+                <li><a href="#purchase-order-tracking">Purchase Order Tracking</a></li>
+                <li><a href="#vendor-performance-metrices">Vendor's Performance Metrices</a></li>
+            </ul>
+            <li><a href="#authors">Authors</a></li>
+          </ul>
+    </div>
+  <div class="container">
+    <h1 id="overview">Vendor Management System with Performance Metrics</h1>
+    <hr>
+    <h2>Overview</h2>
+    <p>The Vendor Management System (VMS) with Performance Metrics is a web application built using Django and Django REST Framework. It provides a platform for managing vendor profiles, tracking purchase orders, and evaluating vendor performance metrics. The system is designed to adhere to RESTful principles, implement comprehensive data validations, and utilize Django ORM for database interactions.</p>
+    <hr>
+    <h2>Core Features</h2>
+    <ul>
+      <li>
+        <strong>Vendor Profile Management:</strong>
+        <ul>
+          <li>Create, retrieve, update, and delete vendor profiles.</li>
+          <li>Each vendor profile includes name, contact details, address, and a unique vendor code.</li>
+        </ul>
+      </li>
+      <li>
+        <br>
+        <strong>Purchase Order Tracking:</strong>
+        <ul>
+          <li>Track purchase orders with details such as PO number, vendor reference, order date, items, quantity, and status.</li>
+          <li>View, create, retrieve, update, and delete purchase orders.</li>
+          <li>Filter purchase orders by vendor.</li>
+        </ul>
+      </li>
+      <li>
+        <br>
+        <strong>Vendor Performance Evaluation:</strong>
+        <ul>
+          <li>Calculate performance metrics for vendors, including:
+            <ul>
+              <li>On-Time Delivery Rate</li>
+              <li>Quality Rating</li>
+              <li>Response Time</li>
+              <li>Fulfilment Rate</li>
+            </ul>
+          </li>
+          <li>View performance metrics for each vendor.</li>
+        </ul>
+      </li>
+    </ul>
+    <hr>
+    <h2 id="technologies-used">Technologies Used</h2>
+    <ul>
+      <li>Django: Web framework for building the backend of the application.</li>
+      <li>Django REST Framework: Toolkit for building Web APIs.</li>
+      <li>SQLite: Relational database management system used for storing data.</li>
+      <li>Python: Programming language for backend development.</li>
+    </ul>
+<hr>
+    <h2 id="installation">Installation</h2>
+    <pre><code>
+git clone https://github.com/Aditya-K-Pathak/Vendor-Management-System/
+cd vendor-management-system
+pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver</code></pre>
+
+<hr>
+    <h2 id="security">Security</h2>
+    <p>The application implements token-based authentication to secure API endpoints. Users need to authenticate with a valid token to access protected resources. Additionally, the application follows best practices for securing data and preventing common security vulnerabilities.</p>
+<hr>
+    <h2 id="api-endpoints">API Endpoints</h2>
+    <ul>
+        <li><h3 id="vendor-profile-registeration">Vendor Profile Registeration</h3></li>
+        <ul>
+            <li><pre><code>POST /api/user/</code>: Create a new authorization token</pre></li>
+            <ul>
+                <pre><code>
+# Python Code Snippet
+
+import requests
+
+def register_user(username, email, password):
+    url = 'http://localhost:8000/api/user/'
+    data = {'username': username, 'email': email, 'password': password}
+    response = requests.post(url, data=data)
+    if response.status_code == 201:
+        print("User registered successfully.")
+        return response.json().get('token')
+    </code></pre>
+            </ul>
+        </ul>
+        <li><h3 id="vendor-profile-management">Vendor Profile Management</h3></li>
+        <ul>
+            <li><pre><code>POST /api/vendors/</code>: Create a new vendor</pre></li>
+            <ul>
+                <pre><code>
+# Python Code Snippet
+
+import requests
+
+base_url = 'http://localhost:8000/api/'
+
+token = 'YOUR_TOKEN_HERE'
+
+def register_vendor(vendor_name, contact_number, address):
+    url = base_url + 'vendors/'
+    headers = {'Authorization': f'Token {token}'}
+    data = {
+        'vendor_name': vendor_name,
+        'contact_number': contact_number,
+        'address': address
+    }
+    response = requests.post(url, headers=headers, data=data)
+    return response.json()
+    </code></pre>
+            </ul>
+            <li><pre><code>GET /api/vendors/</code>: list all vendor</pre></li>
+            <ul>
+                <pre><code>
+# Python Code Snippet
+
+import requests
+
+base_url = 'http://localhost:8000/api/'
+
+token = 'YOUR_TOKEN_HERE'
+
+def get_all_vendors():
+    url = base_url + 'vendors/'
+    headers = {'Authorization': f'Token {token}'}
+    response = requests.get(url, headers=headers)
+    return response.json()
+    </code></pre>
+            </ul>
+            <li><pre><code>GET /api/vendors/{vendor_id}/</code>: Retrieve a specific vendor's details.</pre></li>
+            <ul>
+                <pre><code>
+# Python Code Snippet
+
+import requests
+
+base_url = 'http://localhost:8000/api/'
+
+token = 'YOUR_TOKEN_HERE'
+
+def get_vendor(vendor_id):
+    url = base_url + f'vendors/{vendor_id}/'
+    headers = {'Authorization': f'Token {token}'}
+    response = requests.get(url, headers=headers)
+    return response.json()
+    </code></pre>
+            </ul>
+            <li><pre><code>PUT /api/vendors/{vendor_id}/</code>: Update a vendor's details.</pre></li>
+            <ul>
+                <pre><code>
+# Python Code Snippet
+
+import requests
+
+base_url = 'http://localhost:8000/api/'
+
+token = 'YOUR_TOKEN_HERE'
+
+def update_vendor(vendor_id, data):
+    url = base_url + f'vendors/{vendor_id}/'
+    headers = {'Authorization': f'Token {token}'}
+    response = requests.put(url, headers=headers, data=data)
+    return response.json()
+    </code></pre>
+            </ul>
+            <li><pre><code>DELETE /api/vendors/{vendor_id}/</code>: Delete a vendor.</pre></li>
+            <ul>
+                <pre><code>
+# Python Code Snippet
+
+import requests
+
+base_url = 'http://localhost:8000/api/'
+
+token = 'YOUR_TOKEN_HERE'
+
+def delete_vendor(vendor_id):
+    url = base_url + f'vendors/{vendor_id}/'
+    headers = {'Authorization': f'Token {token}'}
+    response = requests.delete(url, headers=headers)
+    return response.status_code
+    </code></pre>
+            </ul>
+        </ul>
+        <li><h3 id="purchase-order-tracking">Purchase Order Tracking</h3></li>
+        <ul>
+            <li><pre><code>POST /api/purchase_orders/</code>: Create a new Purchase order</pre></li>
+            <ul>
+                <pre><code>
+# Python Code Snippet
+
+import requests
+
+base_url = 'http://localhost:8000/api/'
+
+token = 'YOUR_TOKEN_HERE'
+
+def create_purchase_order(vendor_code, order_status, items, quantity):
+    url = base_url + 'purchase_orders/'
+    headers = {'Authorization': f'Token {token}'}
+    data = {
+        'vendor_code': vendor_code,
+        'items': '{"item1": 1, "item2": 1}',
+        'quantity': quantity
+    }
+    response = requests.post(url, headers=headers, data=data)
+    return response.json()
+    </code></pre>
+            </ul>
+            <li><pre><code>GET /api/purchase_orders/</code>: List all Purchase orders</pre></li>
+            <ul>
+                <pre><code>
+# Python Code Snippet
+
+import requests
+
+base_url = 'http://localhost:8000/api/'
+
+token = 'YOUR_TOKEN_HERE'
+
+def get_all_purchase_orders():
+    url = base_url + 'purchase_orders/'
+    headers = {'Authorization': f'Token {token}'}
+    response = requests.get(url, headers=headers)
+    return response.json()
+    </code></pre>
+            </ul>
+            <li><pre><code>POST /api/purchase_orders/{po_id}/</code>: Retrieve details of a specific purchase order.</pre></li>
+            <ul>
+                <pre><code>
+# Python Code Snippet
+
+import requests
+
+base_url = 'http://localhost:8000/api/'
+
+token = 'YOUR_TOKEN_HERE'
+
+def get_purchase_order(po_id):
+    url = base_url + f'purchase_orders/{po_id}/'
+    headers = {'Authorization': f'Token {token}'}
+    response = requests.get(url, headers=headers)
+    return response.json()
+    </code></pre>
+            </ul>
+            <li><pre><code>PUT /api/purchase_orders/{po_id}/</code>: Update a purchase order.</pre></li>
+            <ul>
+                <pre><code>
+# Python Code Snippet
+
+import requests
+
+base_url = 'http://localhost:8000/api/'
+
+token = 'YOUR_TOKEN_HERE'
+
+def update_purchase_order(po_id, data):
+    url = base_url + f'purchase_orders/{po_id}/'
+    headers = {'Authorization': f'Token {token}'}
+    response = requests.put(url, headers=headers, data=data)
+    return response.json()
+    </code></pre>
+            </ul>
+            <li><pre><code>DELETE /api/purchase_orders/{po_id}/</code>: Delete a purchase order.</pre></li>
+            <ul>
+                <pre><code>
+# Python Code Snippet
+
+import requests
+
+base_url = 'http://localhost:8000/api/'
+
+token = 'YOUR_TOKEN_HERE'
+
+def delete_purchase_order(po_id):
+    url = base_url + f'purchase_orders/{po_id}/'
+    headers = {'Authorization': f'Token {token}'}
+    response = requests.delete(url, headers=headers)
+    return response.status_code
+    </code></pre>
+            </ul>
+        </ul>
+        <li><h3 id="vendor-performance-metrices">Vendor's Performance Metrices</h3></li>
+        <ul>
+            <li><pre><code>GET /api/vendors/{vendor_id}/performance/</code>: Retrieve a vendor's performance metrics.</pre></li>
+            <ul>
+                <pre><code>
+# Python Code Snippet
+
+import requests
+
+base_url = 'http://localhost:8000/api/'
+
+token = 'YOUR_TOKEN_HERE'
+
+def get_vendor_performance(vendor_id):
+    url = base_url + f'vendors/{vendor_id}/performance/'
+    headers = {'Authorization': f'Token {token}'}
+    response = requests.get(url, headers=headers)
+    return response.json()
+    </code></pre>
+            </ul>
+    </ul>
+<hr>
+
+    <h2 id="author">Author</h2>
+    <p class="author">Aditya Pathak</p>
+  </div>
+</body>
+
+</html>
